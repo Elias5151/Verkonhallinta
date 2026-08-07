@@ -306,6 +306,14 @@ Tee:
 
 ---
 
+# Topologian käyttö
+```bash
+bash scripts/deploy.sh
+bash scripts/status.sh
+bash scripts/reset.sh
+bash scripts/destroy.sh
+```
+
 # SSH ja komentorivi
 
 Voit avata minkä tahansa kontin shellin:
