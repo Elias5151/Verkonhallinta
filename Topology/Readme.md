@@ -52,3 +52,43 @@ r2-r3 = 10.255.23.0/30
 
 r2 = 10.255.23.1
 r3 = 10.255.23.2
+
+# Looginen verkkokaavio
+
+                    10.255.12.0/30
+
+      CLIENT LAN
+      10.10.10.0/24
+
+ client1
+ attacker
+      |
+      r1
+      |
+      r2
+      |
+------------------------- CORE -------------------------
+
+      SERVER LAN
+      10.10.20.0/24
+
+ web1
+ db1
+
+      MANAGEMENT
+      10.10.99.0/24
+
+ ansible
+ prometheus
+ grafana
+ zabbix
+
+      |
+      r3
+      |
+      branch-client
+
+      BRANCH LAN
+      10.10.30.0/24
+
+              10.255.23.0/30
