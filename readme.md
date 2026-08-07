@@ -1,23 +1,31 @@
 # Verkonhallinta (3 op)
 
 Tervetuloa Verkonhallinta-opintojaksolle.
+Nykyaikainen verkonhallinta on siirtynyt voimakkaasti kohti:
+
+automaatiota ja Infrastructure as Code -ajattelua
+jatkuvaa telemetriaa (streaming telemetry)
+API-pohjaista hallintaa
+keskitettyä havainnointia (observability)
+pilvi- ja hybridiverkkojen hallintaa
+tietoturvan ja verkonhallinnan yhdistymistä
 
 Kurssilla käytetään yhtenäistä virtuaalista verkkoympäristöä, joka simuloi yritysverkkoa. Kaikki harjoitukset suoritetaan saman ympäristön päälle lisäämällä siihen uusia palveluita, valvontaa ja automaatiota kurssin edetessä.
 
 Kurssin aikana käytetään seuraavia teknologioita:
 
-- Containerlab
-- Docker
+- [Containerlab](https://containerlab.dev/)
+- [Docker](https://www.docker.com/)
 - Linux
-- FRRouting
-- SNMP
-- Syslog
-- Prometheus
-- Grafana
-- Zabbix
-- Ansible
-- NetBox
-- Wireshark
+- [FRRouting](https://frrouting.org/)
+- [SNMP](https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol)
+- [Syslog](https://en.wikipedia.org/wiki/Syslog)
+- [Prometheus](https://prometheus.io/)
+- [Grafana](https://grafana.com/oss/grafana/)
+- [Zabbix](https://www.zabbix.com/)
+- [Ansible](https://docs.ansible.com/projects/ansible/latest/getting_started/introduction.html)
+- [NetBox](https://netboxlabs.com/docs/netbox/)
+- [Wireshark](https://www.wireshark.org/)
 
 ---
 
