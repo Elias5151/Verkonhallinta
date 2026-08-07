@@ -1,0 +1,123 @@
+name: hamk-verkonhallinta
+
+mgmt:
+  network: clab-mgmt
+  ipv4-subnet: 172.20.20.0/24
+
+topology:
+
+  nodes:
+
+    #################################################################
+    # ROUTERS
+    #################################################################
+
+    r1:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - ../configs/frr/r1/frr.conf:/etc/frr/frr.conf
+      exec:
+        - sysctl -w net.ipv4.ip_forward=1
+
+    r2:
+      kind: linux
+      image: frrouting/frr:latest
+      binds:
+        - ../configs/frr/r2/frr.conf:/etc/frr/frr.conf
+      exec:
+        - sysctl -w net.ipv4.ip_forward=1
+
+    #################################################################
+    # CLIENT NETWORK
+    #################################################################
+
+    client1:
+      kind: linux
+      image: ubuntu:24.04
+      exec:
+        - ip addr add 10.10.10.101/24 dev eth1
+        - ip route add default via 10.10.10.1
+
+    attacker:
+      kind: linux
+      image: kalilinux/kali-rolling:latest
+      exec:
+        - ip addr add 10.10.10.200/24 dev eth1
+        - ip route add default via 10.10.10.1
+
+    #################################################################
+    # SERVER NETWORK
+    #################################################################
+
+    web1:
+      kind: linux
+      image: ubuntu:24.04
+      exec:
+        - ip addr add 10.10.20.101/24 dev eth1
+        - ip route add default via 10.10.20.1
+
+    db1:
+      kind: linux
+      image: ubuntu:24.04
+      exec:
+        - ip addr add 10.10.20.102/24 dev eth1
+        - ip route add default via 10.10.20.1
+
+    #################################################################
+    # MANAGEMENT SERVICES
+    #################################################################
+
+    ansible:
+      kind: linux
+      image: ubuntu:24.04
+      binds:
+        - ../configs/ansible:/ansible
+
+    prometheus:
+      kind: linux
+      image: prom/prometheus:latest
+      ports:
+        - 9090:9090
+      binds:
+        - ../configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+    grafana:
+      kind: linux
+      image: grafana/grafana:latest
+      ports:
+        - 3000:3000
+
+    zabbix:
+      kind: linux
+      image: zabbix/zabbix-appliance:latest
+      ports:
+        - 8080:80
+        - 10051:10051
+
+  ###################################################################
+  # LINKS
+  ###################################################################
+
+  links:
+
+    # Router interconnect
+
+    - endpoints: ["r1:eth1", "r2:eth1"]
+
+    # Client network
+
+    - endpoints: ["r1:eth2", "client1:eth1"]
+    - endpoints: ["r1:eth3", "attacker:eth1"]
+
+    # Server network
+
+    - endpoints: ["r2:eth2", "web1:eth1"]
+    - endpoints: ["r2:eth3", "db1:eth1"]
+
+    # Monitoring network
+
+    - endpoints: ["r2:eth4", "ansible:eth1"]
+    - endpoints: ["r2:eth5", "prometheus:eth1"]
+    - endpoints: ["r2:eth6", "grafana:eth1"]
+    - endpoints: ["r2:eth7", "zabbix:eth1"]
