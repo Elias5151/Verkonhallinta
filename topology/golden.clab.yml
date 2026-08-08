@@ -18,16 +18,10 @@ topology:
       binds:
         - ../configs/frr/r1/daemons:/etc/frr/daemons
         - ../configs/frr/r1/frr.conf:/etc/frr/frr.conf
+        - ../scripts/router-bootstrap.sh:/usr/local/bin/router-bootstrap.sh
       exec:
-        - sysctl -w net.ipv4.ip_forward=1
-        - sysctl -w net.ipv4.conf.all.rp_filter=0
-        - sysctl -w net.ipv4.conf.default.rp_filter=0
-        - ip route replace default via 172.20.20.1
-        - iptables -t nat -A POSTROUTING -s 10.10.10.0/24 -o eth0 -j MASQUERADE
-        - iptables -A FORWARD -i eth2 -o eth0 -j ACCEPT
-        - iptables -A FORWARD -i eth3 -o eth0 -j ACCEPT
-        - iptables -A FORWARD -i eth0 -o eth2 -m state --state ESTABLISHED,RELATED -j ACCEPT
-        - iptables -A FORWARD -i eth0 -o eth3 -m state --state ESTABLISHED,RELATED -j ACCEPT
+        - chmod +x /usr/local/bin/router-bootstrap.sh
+        - /usr/local/bin/router-bootstrap.sh r1 10.10.10.0/24 "eth2 eth3" 172.20.20.1
 
     r2:
       kind: linux
@@ -35,17 +29,10 @@ topology:
       binds:
         - ../configs/frr/r2/daemons:/etc/frr/daemons
         - ../configs/frr/r2/frr.conf:/etc/frr/frr.conf
+        - ../scripts/router-bootstrap.sh:/usr/local/bin/router-bootstrap.sh
       exec:
-        - sysctl -w net.ipv4.ip_forward=1
-        - sysctl -w net.ipv4.conf.all.rp_filter=0
-        - sysctl -w net.ipv4.conf.default.rp_filter=0
-        - iptables -t nat -A POSTROUTING -s 10.10.20.0/24 -o eth0 -j MASQUERADE
-        - iptables -A FORWARD -i eth2 -o eth0 -j ACCEPT
-        - iptables -A FORWARD -i eth3 -o eth0 -j ACCEPT
-        - iptables -A FORWARD -i eth4 -o eth0 -j ACCEPT
-        - iptables -A FORWARD -i eth0 -o eth2 -m state --state ESTABLISHED,RELATED -j ACCEPT
-        - iptables -A FORWARD -i eth0 -o eth3 -m state --state ESTABLISHED,RELATED -j ACCEPT
-        - iptables -A FORWARD -i eth0 -o eth4 -m state --state ESTABLISHED,RELATED -j ACCEPT
+        - chmod +x /usr/local/bin/router-bootstrap.sh
+        - /usr/local/bin/router-bootstrap.sh r2 10.10.20.0/24 "eth2 eth3 eth4" 172.20.20.1
 
     r3:
       kind: linux
@@ -53,13 +40,10 @@ topology:
       binds:
         - ../configs/frr/r3/daemons:/etc/frr/daemons
         - ../configs/frr/r3/frr.conf:/etc/frr/frr.conf
+        - ../scripts/router-bootstrap.sh:/usr/local/bin/router-bootstrap.sh
       exec:
-        - sysctl -w net.ipv4.ip_forward=1
-        - sysctl -w net.ipv4.conf.all.rp_filter=0
-        - sysctl -w net.ipv4.conf.default.rp_filter=0
-        - iptables -t nat -A POSTROUTING -s 10.10.30.0/24 -o eth0 -j MASQUERADE
-        - iptables -A FORWARD -i eth2 -o eth0 -j ACCEPT
-        - iptables -A FORWARD -i eth0 -o eth2 -m state --state ESTABLISHED,RELATED -j ACCEPT
+        - chmod +x /usr/local/bin/router-bootstrap.sh
+        - /usr/local/bin/router-bootstrap.sh r3 10.10.30.0/24 "eth2" 172.20.20.1
 
     ####################################################
     # L2 BRIDGES
@@ -93,7 +77,7 @@ topology:
       exec:
         - sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y iproute2 iputils-ping'
         - ip addr add 10.10.10.101/24 dev eth1
-        - ip route add default via 10.10.10.1
+        - ip route replace default via 10.10.10.1 dev eth1
         - sh -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
 
     attacker:
@@ -102,7 +86,7 @@ topology:
       exec:
         - sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y iproute2 iputils-ping'
         - ip addr add 10.10.10.200/24 dev eth1
-        - ip route replace default via 10.10.10.1
+        - ip route replace default via 10.10.10.1 dev eth1
 
     ####################################################
     # SERVER NETWORK
@@ -114,7 +98,7 @@ topology:
       exec:
         - sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y iproute2 iputils-ping'
         - ip addr add 10.10.20.101/24 dev eth1
-        - ip route add default via 10.10.20.1
+        - ip route replace default via 10.10.20.1 dev eth1
         - sh -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
 
     db1:
@@ -123,7 +107,7 @@ topology:
       exec:
         - sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y iproute2 iputils-ping'
         - ip addr add 10.10.20.102/24 dev eth1
-        - ip route add default via 10.10.20.1
+        - ip route replace default via 10.10.20.1 dev eth1
         - sh -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
 
     ####################################################
@@ -136,7 +120,7 @@ topology:
       exec:
         - sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y iproute2 iputils-ping'
         - ip addr add 10.10.30.101/24 dev eth1
-        - ip route add default via 10.10.30.1
+        - ip route replace default via 10.10.30.1 dev eth1
         - sh -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
 
     ####################################################
