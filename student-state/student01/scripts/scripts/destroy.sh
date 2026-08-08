@@ -7,7 +7,7 @@ TOPOLOGY_FILE="${ROOT_DIR}/Topology/golden.clab.yml"
 STUDENT_ID="${STUDENT_ID:-student01}"
 
 echo "[INFO] Tallennetaan opiskelijan tila ennen ympäristön tuhoamista..."
-"${ROOT_DIR}/scripts/persist/student-state-sync.sh" "${STUDENT_ID}" >/dev/null
+bash "${ROOT_DIR}/scripts/persist/student-state-sync.sh" "${STUDENT_ID}" >/dev/null
 
 echo "[INFO] Suljetaan ympäristö..."
 
