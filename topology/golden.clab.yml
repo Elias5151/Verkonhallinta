@@ -62,6 +62,28 @@ topology:
         - iptables -A FORWARD -i eth0 -o eth2 -m state --state ESTABLISHED,RELATED -j ACCEPT
 
     ####################################################
+    # L2 BRIDGES
+    ####################################################
+
+    srv-bp:
+      kind: linux
+      image: alpine:latest
+      cmd: sleep infinity
+
+    mgmt-bp:
+      kind: linux
+      image: alpine:latest
+      cmd: sleep infinity
+
+    srv-br|srv-bp:
+      kind: bridge
+      network-mode: container:srv-bp
+
+    mgmt-br|mgmt-bp:
+      kind: bridge
+      network-mode: container:mgmt-bp
+
+    ####################################################
     # USER NETWORK
     ####################################################
 
@@ -69,6 +91,7 @@ topology:
       kind: linux
       image: ubuntu:24.04
       exec:
+        - sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y iproute2 iputils-ping'
         - ip addr add 10.10.10.101/24 dev eth1
         - ip route add default via 10.10.10.1
         - sh -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
@@ -77,8 +100,9 @@ topology:
       kind: linux
       image: kalilinux/kali-rolling:latest
       exec:
+        - sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y iproute2 iputils-ping'
         - ip addr add 10.10.10.200/24 dev eth1
-        - ip route add default via 10.10.10.1
+        - ip route replace default via 10.10.10.1
 
     ####################################################
     # SERVER NETWORK
@@ -88,6 +112,7 @@ topology:
       kind: linux
       image: ubuntu:24.04
       exec:
+        - sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y iproute2 iputils-ping'
         - ip addr add 10.10.20.101/24 dev eth1
         - ip route add default via 10.10.20.1
         - sh -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
@@ -96,6 +121,7 @@ topology:
       kind: linux
       image: ubuntu:24.04
       exec:
+        - sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y iproute2 iputils-ping'
         - ip addr add 10.10.20.102/24 dev eth1
         - ip route add default via 10.10.20.1
         - sh -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
@@ -108,6 +134,7 @@ topology:
       kind: linux
       image: ubuntu:24.04
       exec:
+        - sh -c 'apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y iproute2 iputils-ping'
         - ip addr add 10.10.30.101/24 dev eth1
         - ip route add default via 10.10.30.1
         - sh -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
@@ -168,16 +195,18 @@ topology:
     #
     # SERVER LAN
     #
-    - endpoints: ["r2:eth2", "web1:eth1"]
-    - endpoints: ["r2:eth2", "db1:eth1"]
+    - endpoints: ["r2:eth2", "srv-br|srv-bp:eth1"]
+    - endpoints: ["web1:eth1", "srv-br|srv-bp:eth2"]
+    - endpoints: ["db1:eth1", "srv-br|srv-bp:eth3"]
 
     #
     # MANAGEMENT LAN
     #
-    - endpoints: ["r2:eth3", "ansible:eth1"]
-    - endpoints: ["r2:eth3", "prometheus:eth1"]
-    - endpoints: ["r2:eth3", "grafana:eth1"]
-    - endpoints: ["r2:eth3", "zabbix:eth1"]
+    - endpoints: ["r2:eth3", "mgmt-br|mgmt-bp:eth1"]
+    - endpoints: ["ansible:eth1", "mgmt-br|mgmt-bp:eth2"]
+    - endpoints: ["prometheus:eth1", "mgmt-br|mgmt-bp:eth3"]
+    - endpoints: ["grafana:eth1", "mgmt-br|mgmt-bp:eth4"]
+    - endpoints: ["zabbix:eth1", "mgmt-br|mgmt-bp:eth5"]
 
     #
     # BRANCH OFFICE LAN
