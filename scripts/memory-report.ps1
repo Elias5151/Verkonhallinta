@@ -31,13 +31,13 @@ function Convert-SizeToMiB {
 function Invoke-Wsl {
     param([string]$Command)
 
-    $args = @()
+    $wslArgs = @()
     if (-not [string]::IsNullOrWhiteSpace($WslDistro)) {
-        $args += @("-d", $WslDistro)
+        $wslArgs += @("-d", $WslDistro)
     }
 
-    $args += @("-e", "bash", "-lc", $Command)
-    return & wsl @args
+    $wslArgs += @("-e", "bash", "-lc", $Command)
+    return & wsl @wslArgs
 }
 
 Write-Output ""
