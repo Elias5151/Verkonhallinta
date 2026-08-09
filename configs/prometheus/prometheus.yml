@@ -71,3 +71,11 @@ scrape_configs:
         regex: "(.*):9100"
         target_label: hostname
         replacement: "$1"
+
+  #
+  # Labran konttimetriikat (cAdvisor)
+  #
+  - job_name: cadvisor
+    static_configs:
+      - targets:
+          - cadvisor:8080

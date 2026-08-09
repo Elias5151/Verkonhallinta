@@ -337,6 +337,21 @@ bash scripts/reset.sh
 bash scripts/destroy.sh
 ```
 
+Muistiraportti (Windows + WSL + Docker):
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/memory-report.ps1
+```
+
+Labran konttimetriikoiden tila (Prometheus + Grafana):
+
+```bash
+bash scripts/lab-monitoring-status.sh
+```
+
+Huom: konttimetriikat ovat olemassa vain labran ollessa kaynnissa, koska cAdvisor on osa topologiaa.
+Kun labra sammutetaan `destroy.sh`:lla, metrikat ja targetit poistuvat samalla.
+
 # SSH ja komentorivi
 
 Voit avata minkä tahansa kontin shellin:

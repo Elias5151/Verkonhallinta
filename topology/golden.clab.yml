@@ -151,11 +151,25 @@ topology:
       binds:
         - ../configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
 
+    cadvisor:
+      kind: linux
+      image: gcr.io/cadvisor/cadvisor:v0.49.1
+      binds:
+        - /:/rootfs:ro
+        - /var/run:/var/run:ro
+        - /sys:/sys:ro
+        - /var/lib/docker/:/var/lib/docker:ro
+        - /dev/disk/:/dev/disk:ro
+
     grafana:
       kind: linux
       image: grafana/grafana:latest
       ports:
         - 3000:3000
+      binds:
+        - ../configs/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+        - ../configs/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+        - ../configs/grafana/dashboards:/var/lib/grafana/dashboards
 
     zabbix:
       kind: linux
@@ -199,8 +213,9 @@ topology:
     - endpoints: ["r2:eth3", "mgmt-br|mgmt-bp:eth1"]
     - endpoints: ["ansible:eth1", "mgmt-br|mgmt-bp:eth2"]
     - endpoints: ["prometheus:eth1", "mgmt-br|mgmt-bp:eth3"]
-    - endpoints: ["grafana:eth1", "mgmt-br|mgmt-bp:eth4"]
-    - endpoints: ["zabbix:eth1", "mgmt-br|mgmt-bp:eth5"]
+    - endpoints: ["cadvisor:eth1", "mgmt-br|mgmt-bp:eth4"]
+    - endpoints: ["grafana:eth1", "mgmt-br|mgmt-bp:eth5"]
+    - endpoints: ["zabbix:eth1", "mgmt-br|mgmt-bp:eth6"]
 
     #
     # BRANCH OFFICE LAN
