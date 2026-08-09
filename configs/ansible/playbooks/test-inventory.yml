@@ -8,12 +8,12 @@
 
 - name: Test Router Connectivity
   hosts: routers
-  gather_facts: no
+  gather_facts: false
   tasks:
     - name: Check router reachability
       ansible.builtin.ping:
       register: ping_result
-      ignore_errors: yes
+      ignore_errors: true
     
     - name: Report router status
       ansible.builtin.debug:
@@ -21,12 +21,12 @@
 
 - name: Test Linux Hosts Connectivity
   hosts: linux_hosts
-  gather_facts: yes
+  gather_facts: true
   tasks:
     - name: Check host reachability
       ansible.builtin.ping:
       register: ping_result
-      ignore_errors: yes
+      ignore_errors: true
     
     - name: Gather basic facts
       ansible.builtin.setup:
@@ -44,7 +44,7 @@
 
 - name: Inventory Summary
   hosts: localhost
-  gather_facts: no
+  gather_facts: false
   tasks:
     - name: Display inventory groups
       ansible.builtin.debug:
