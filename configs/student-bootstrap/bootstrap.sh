@@ -1,6 +1,35 @@
 #!/bin/bash
 set -euo pipefail
 
+# ============================================================
+# Student Node Bootstrap Script
+# Installs: SSH server + node_exporter monitoring
+# ============================================================
+
+# Import SSH setup if available
+if [ -f /student-bootstrap/../ssh-setup.sh ]; then
+  bash /student-bootstrap/../ssh-setup.sh
+elif [ -f /configs/ssh-setup.sh ]; then
+  bash /configs/ssh-setup.sh
+fi
+
+# Configure Ansible SSH key if available
+if [ -f /student-bootstrap/../ansible/keys/ansible_id_rsa.pub ]; then
+  mkdir -p /root/.ssh
+  cat /student-bootstrap/../ansible/keys/ansible_id_rsa.pub >> /root/.ssh/authorized_keys
+  chmod 600 /root/.ssh/authorized_keys
+  echo "  ✓ Ansible SSH key installed"
+elif [ -f /ansible/keys/ansible_id_rsa.pub ]; then
+  mkdir -p /root/.ssh
+  cat /ansible/keys/ansible_id_rsa.pub >> /root/.ssh/authorized_keys
+  chmod 600 /root/.ssh/authorized_keys
+  echo "  ✓ Ansible SSH key installed"
+fi
+
+# ============================================================
+# Node Exporter Installation
+# ============================================================
+
 NODE_EXPORTER_VERSION="${NODE_EXPORTER_VERSION:-1.8.2}"
 NODE_EXPORTER_ARCH="amd64"
 NODE_EXPORTER_DIR="/opt/node_exporter"

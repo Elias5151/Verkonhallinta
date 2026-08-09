@@ -65,16 +65,53 @@ ansible_become=no
 - `ansible_user=admin`
 
 ### Linux Host Variables
-- `ansible_connection=ssh`
+- `ansible_connection=ssh` (standard SSH connection)
 - `ansible_user=root`
+- `ansible_ssh_pass=Hamk2024!` (fallback password)
 - `ansible_python_interpreter=/usr/bin/python3`
+
+**Authentication Methods:**
+1. **SSH Key (Preferred)**: Ansible control node generates SSH keypair automatically
+   - Public key: `/ansible/keys/ansible_id_rsa.pub`
+   - Distributed to all nodes via `ansible-distribute-key.sh` script
+   - Passwordless authentication for automation
+   
+2. **Password (Fallback)**: `Hamk2024!`
+   - Used if SSH key authentication fails
+   - Allows manual login: `ssh root@<hostname>`
+   - Lab user account: `labadmin / Hamk2024!`
+
+**SSH Server Configuration:**
+- All Ubuntu/Kali nodes run OpenSSH server on port 22
+- Root login enabled for automation purposes
+- Password and public key authentication both enabled
+- Configured via `configs/ssh-setup.sh` during topology deployment
 
 ## Usage Examples
 
+### Initial Setup (After Topology Deployment)
+
+After deploying the containerlab topology, distribute SSH keys:
+```bash
+# From WSL host
+cd ~/Verkonhallinta
+sudo bash scripts/ansible-distribute-key.sh
+
+# This script:
+# 1. Waits for Ansible container to generate SSH keypair
+# 2. Distributes public key to all managed nodes
+# 3. Enables passwordless SSH authentication
+```
+
 ### Test Inventory Connectivity
 ```bash
-# From ansible container or host with ansible installed
-ansible-playbook -i /ansible/inventory.ini /ansible/playbooks/test-inventory.yml
+# From ansible container
+docker exec -it clab-hamk-verkonhallinta-golden-ansible bash
+ansible all -i /ansible/inventory.ini -m ping
+
+# Or from WSL host (if ansible installed)
+cd ~/Verkonhallinta/configs/ansible
+ansible all -i inventory.ini -m ping
 ```
 
 ### Ping All Hosts
@@ -131,19 +168,55 @@ All hosts use their full containerlab container names:
 
 ## Troubleshooting
 
-### Host unreachable
+### Host unreachable via SSH
 1. Verify containerlab topology is running: `sudo containerlab inspect -t golden.clab.yml`
 2. Check container names: `docker ps --filter "name=clab-hamk"`
-3. Test manual connection: `docker exec clab-hamk-verkonhallinta-golden-client1 hostname`
+3. Test SSH manually from ansible container:
+   ```bash
+   docker exec clab-hamk-verkonhallinta-golden-ansible \
+     ssh -o StrictHostKeyChecking=no root@clab-hamk-verkonhallinta-golden-client1 hostname
+   ```
+4. Verify SSH is running in target:
+   ```bash
+   docker exec clab-hamk-verkonhallinta-golden-client1 pgrep sshd
+   docker exec clab-hamk-verkonhallinta-golden-client1 ss -ltnp | grep :22
+   ```
+5. Re-distribute SSH keys if needed:
+   ```bash
+   sudo bash ~/Verkonhallinta/scripts/ansible-distribute-key.sh
+   ```
 
-### Python not found
-- Ubuntu containers may need python3 installed
-- Update inventory python interpreter path if needed
+### SSH authentication failed
+1. Check if SSH key exists: `docker exec clab-hamk-verkonhallinta-golden-ansible ls -la /root/.ssh/`
+2. Verify public key is in authorized_keys on target:
+   ```bash
+   docker exec clab-hamk-verkonhallinta-golden-client1 cat /root/.ssh/authorized_keys
+   ```
+3. Test password authentication as fallback:
+   ```bash
+   ansible client1 -i inventory.ini -m ping -e ansible_ssh_pass=Hamk2024!
+   ```
+
+### Manual SSH access for debugging
+```bash
+# From WSL host to any node
+ssh root@clab-hamk-verkonhallinta-golden-client1
+# Password: Hamk2024!
+
+# Or using lab admin user
+ssh labadmin@clab-hamk-verkonhallinta-golden-web1
+# Password: Hamk2024!
+```
+
+### Python not found in target
+- Ubuntu/Kali containers should have python3 installed
+- Check: `docker exec <container> which python3`
+- Install if missing: `docker exec <container> apt-get update && apt-get install -y python3`
 
 ### Permission denied
-- Containerlab uses root by default
-- Verify `ansible_user=root` in group vars
-- Check SSH key configuration if using key-based auth
+- Verify root password: `Hamk2024!`
+- Check SSH config allows root login: `docker exec <container> grep PermitRootLogin /etc/ssh/sshd_config`
+- Restart SSH if needed: `docker exec <container> pkill -HUP sshd`
 
 ## Maintenance
 
