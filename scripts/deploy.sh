@@ -8,6 +8,10 @@ set -e
 # ----------------------------------------------------
 
 TOPOLOGY_FILE="topology/golden.clab.yml"
+NETBOX_DIR="configs/netbox"
+NETBOX_COMPOSE_FILE="${NETBOX_DIR}/docker-compose.yml"
+NETBOX_ENV_FILE="${NETBOX_DIR}/.env"
+NETBOX_ENV_TEMPLATE="${NETBOX_DIR}/.env.example"
 
 echo ""
 echo "========================================="
@@ -31,8 +35,14 @@ if ! command -v containerlab >/dev/null 2>&1; then
     exit 1
 fi
 
+if ! docker compose version >/dev/null 2>&1; then
+    echo "[ERROR] Docker Compose pluginia ei loydy (docker compose)."
+    exit 1
+fi
+
 echo "[OK] Docker löytyi"
 echo "[OK] Containerlab löytyi"
+echo "[OK] Docker Compose löytyi"
 
 # ----------------------------------------------------
 # Check topology file
@@ -42,6 +52,23 @@ if [ ! -f "$TOPOLOGY_FILE" ]; then
     echo "[ERROR] Topologiatiedostoa ei löydy:"
     echo "        $TOPOLOGY_FILE"
     exit 1
+fi
+
+if [ ! -f "$NETBOX_COMPOSE_FILE" ]; then
+    echo "[ERROR] NetBox compose -tiedostoa ei loydy:"
+    echo "        $NETBOX_COMPOSE_FILE"
+    exit 1
+fi
+
+if [ ! -f "$NETBOX_ENV_FILE" ]; then
+    if [ -f "$NETBOX_ENV_TEMPLATE" ]; then
+        echo "[INFO] Luodaan NetBox .env mallipohjasta..."
+        cp "$NETBOX_ENV_TEMPLATE" "$NETBOX_ENV_FILE"
+        echo "[WARN] Paivita salasanat tiedostoon $NETBOX_ENV_FILE"
+    else
+        echo "[ERROR] NetBox .env puuttuu eika mallia loydy."
+        exit 1
+    fi
 fi
 
 # ----------------------------------------------------
@@ -71,6 +98,11 @@ echo ""
 echo "[INFO] Käynnistetään Containerlab..."
 
 sudo containerlab deploy -t "$TOPOLOGY_FILE"
+
+echo ""
+echo "[INFO] Kaynnistetaan NetBox (Docker Compose)..."
+
+docker compose -f "$NETBOX_COMPOSE_FILE" --env-file "$NETBOX_ENV_FILE" up -d
 
 echo ""
 echo "[INFO] Tarkistetaan ympäristö..."

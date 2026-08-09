@@ -203,6 +203,9 @@ http://localhost:8080
 http://localhost:8000
 ```
 
+NetBox ajetaan tassa ymparistossa erillisena Docker Compose -pinona (ei containerlab-solmuna).
+Pino liitetaan automaattisesti `clab-mgmt`-hallintaverkkoon, jotta NetBox toimii Source of Truth -palveluna koko topologialle.
+
 ---
 
 # Ensimmäinen yhteystesti
@@ -315,6 +318,15 @@ Tee:
 ---
 
 # Topologian käyttö
+
+Ensimmaisella kerralla luo NetBoxin ymparistotiedosto:
+
+```bash
+cp configs/netbox/.env.example configs/netbox/.env
+```
+
+Paivita salasanat tiedostoon `configs/netbox/.env`.
+
 ```bash
 bash scripts/deploy.sh
 bash scripts/status.sh
