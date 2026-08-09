@@ -35,8 +35,14 @@ services:
       - netbox-internal
 
   netbox:
-    image: netboxcommunity/netbox:${NETBOX_VERSION}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NETBOX_VERSION: ${NETBOX_VERSION}
+    image: hamk-netbox-custom:${NETBOX_VERSION}
     restart: unless-stopped
+    command: /bin/bash -lc "python /opt/netbox/netbox/manage.py collectstatic --no-input && /opt/netbox/launch-netbox.sh"
     depends_on:
       postgres:
         condition: service_healthy
@@ -64,12 +70,13 @@ services:
       - "${NETBOX_HOST_PORT}:8080"
     volumes:
       - netbox-media-files:/opt/netbox/netbox/media
+      - ./plugins/plugins.py:/etc/netbox/config/plugins.py:ro
     networks:
       - netbox-internal
       - clab-mgmt
 
   netbox-worker:
-    image: netboxcommunity/netbox:${NETBOX_VERSION}
+    image: hamk-netbox-custom:${NETBOX_VERSION}
     restart: unless-stopped
     depends_on:
       - netbox
@@ -89,28 +96,8 @@ services:
       TZ: ${TZ}
     networks:
       - netbox-internal
-
-  netbox-housekeeping:
-    image: netboxcommunity/netbox:${NETBOX_VERSION}
-    restart: unless-stopped
-    depends_on:
-      - netbox
-    command: /opt/netbox/housekeeping.sh
-    environment:
-      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
-      DB_NAME: ${POSTGRES_DB}
-      DB_USER: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      DB_HOST: postgres
-      DB_PORT: 5432
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      REDIS_CACHE_HOST: redis-cache
-      REDIS_CACHE_PORT: 6379
-      SECRET_KEY: ${NETBOX_SECRET_KEY}
-      TZ: ${TZ}
-    networks:
-      - netbox-internal
+    volumes:
+      - ./plugins/plugins.py:/etc/netbox/config/plugins.py:ro
 
 networks:
   netbox-internal:

@@ -19,7 +19,7 @@ cp configs/netbox/.env.example configs/netbox/.env
 2. Vaihda ainakin seuraavat arvot tiedostoon `configs/netbox/.env`:
 
 - `POSTGRES_PASSWORD`
-- `NETBOX_SECRET_KEY`
+- `NETBOX_SECRET_KEY` (vahintaan 50 merkkia)
 - `NETBOX_SUPERUSER_PASSWORD`
 
 3. Kaynnista labra normaalisti:
@@ -34,7 +34,57 @@ Skripti kaynnistaa ensin containerlabin ja sen jalkeen NetBox-pinon.
 
 - NetBox UI: `http://localhost:8000`
 
+## Topologian visualisointi (NetBox plugin)
+
+Tassa pinossa asennetaan NetBoxiin plugin `netbox-topology-views`.
+
+Kun pino on kaynnissa, avaa NetBox ja siirry:
+
+- `Plugins` -> `Topology Views`
+
+Talla voit rakentaa ja tallentaa visuaalisen topologian NetBoxissa.
+
+## Alkutilan seed (containerlab-topologia)
+
+Voit luoda kurssiympariston alkutilan tiedot NetBoxiin:
+
+```bash
+bash scripts/netbox-seed.sh
+```
+
+Tama ajaa idempotentin upsert-seedin (ei tuplaa objekteja).
+Seed luo laitteet, rajapinnat, IP-osoitteet, prefixit seka kaapeloinnit.
+
+Jos haluat nollata aiemmin seedatut objektit ja luoda ne uudelleen:
+
+```bash
+bash scripts/netbox-seed.sh --reset
+```
+
+`--reset` poistaa vain `clab-seed`-tagilla luodut kohteet.
+
+Seed luo myos valmiit Topology Views -ryhmat:
+
+- `Labra Full`
+- `Labra Core`
+- `Labra Management`
+
 ## Vianetsinta
+
+Jos Topology Views ilmoittaa puuttuvista kuvista (`.../static/netbox_topology_views/img`):
+
+- Pino ajaa nyt automaattisesti `collectstatic`-vaiheen NetBoxin kaynnistyksessa.
+- Kaynnista NetBox-palvelu uudelleen:
+
+```bash
+docker compose -f configs/netbox/docker-compose.yml --env-file configs/netbox/.env up -d --force-recreate netbox
+```
+
+Tarkista, etta hakemisto loytyy kontista:
+
+```bash
+docker compose -f configs/netbox/docker-compose.yml --env-file configs/netbox/.env exec -T netbox ls -la /opt/netbox/netbox/static/netbox_topology_views/img
+```
 
 NetBox-pino:
 

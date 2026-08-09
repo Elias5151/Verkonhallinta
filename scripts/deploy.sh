@@ -102,7 +102,7 @@ sudo containerlab deploy -t "$TOPOLOGY_FILE"
 echo ""
 echo "[INFO] Kaynnistetaan NetBox (Docker Compose)..."
 
-docker compose -f "$NETBOX_COMPOSE_FILE" --env-file "$NETBOX_ENV_FILE" up -d
+docker compose -f "$NETBOX_COMPOSE_FILE" --env-file "$NETBOX_ENV_FILE" up -d --remove-orphans
 
 echo ""
 echo "[INFO] Tarkistetaan ympäristö..."
