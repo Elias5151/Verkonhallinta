@@ -4,6 +4,40 @@ Tämä opas kattaa kaikki tavat tutkia ja visualisoida labran verkkotopologiaa s
 
 ---
 
+## Esiasennetut Verkkotyökalut
+
+**Kaikissa Ubuntu ja Kali Linux -nodeissa (client1, attacker, web1, db1, branch-client) on valmiiksi asennettu:**
+
+| Työkalu | Kuvaus | Esimerkki |
+|---------|--------|-----------|
+| **ping** | ICMP echo testaus | `ping 10.10.20.101` |
+| **traceroute** | Reitin jäljitys | `traceroute 10.10.30.101` |
+| **nslookup** | DNS-kyselyt (yksinkertainen) | `nslookup google.com 8.8.8.8` |
+| **dig** | DNS-kyselyt (edistynyt) | `dig @8.8.8.8 google.com A` |
+| **host** | DNS-kyselyt (nopea) | `host google.com 8.8.8.8` |
+| **tcpdump** | Pakettien kaappaus | `tcpdump -i eth1 -n icmp` |
+| **nmap** | Porttiskannaus | `nmap -p 22,80 10.10.20.101` |
+| **mtr** | Jatkuva traceroute+ping | `mtr -n 10.10.20.101` |
+| **telnet** | TCP-yhteyden testaus | `telnet 10.10.20.101 22` |
+| **wget** | Tiedostojen lataus | `wget http://example.com/file` |
+| **curl** | HTTP-kyselyt | `curl -I http://10.10.20.101` |
+| **netstat** | Verkkoliikenne ja portit | `netstat -tuln` |
+| **ifconfig** | Verkkointerface-info (legacy) | `ifconfig eth1` |
+| **arp** | ARP-taulu (legacy) | `arp -n` |
+| **ip** | Moderni verkko-konfiguraatio | `ip addr show`, `ip route` |
+| **ss** | Socket-tilastot (moderni netstat) | `ss -tuln` |
+
+**Huom:** Kaikki työkalut asentuvat automaattisesti topologian käynnistyksen yhteydessä. Ei tarvitse manuaalista `apt-get install` -komentoa!
+
+**Testattu toimivuus:**
+```bash
+# Esimerkki client1:ltä
+docker exec clab-hamk-verkonhallinta-golden-client1 traceroute -n 10.10.20.101
+# Näyttää reitin: client1 → r1 → r2 → web1
+```
+
+---
+
 ## Sisällysluettelo
 1. [Lab-Spesifit Työkalut](#lab-spesifit-työkalut)
 2. [Geneerisit Verkkotyökalut](#geneerisit-verkkotyökalut)
@@ -178,21 +212,25 @@ docker exec clab-hamk-verkonhallinta-golden-client1 ping -c 3 10.10.30.101
 
 ### 2. Traceroute - Reitin jäljitys
 
-**Näytä mitkä reitittimet paketti kulkee**
+**Näytä mitkä reitittimet paketti kulkee** (esiasennettuna kaikissa nodeissa)
 
 ```bash
-# Asenna traceroute (jos tarpeen)
-docker exec clab-hamk-verkonhallinta-golden-client1 \
-  apt-get update && apt-get install -y traceroute
-
 # Jäljitä reitti branchiin
 docker exec clab-hamk-verkonhallinta-golden-client1 \
   traceroute 10.10.30.101
 
-# Odotettu tulos:
+# Numeerinen muoto (nopea, ei DNS-kyselyä)
+docker exec clab-hamk-verkonhallinta-golden-client1 \
+  traceroute -n 10.10.30.101
+
+# Rajoita maksimi hypyt
+docker exec clab-hamk-verkonhallinta-golden-client1 \
+  traceroute -n -m 10 10.10.30.101
+
+# Odotettu tulos (client1 → branch-client):
 # 1  10.10.10.1 (r1)
-# 2  10.0.0.x (r2)
-# 3  10.0.0.y (r3)
+# 2  10.255.12.2 (r2)
+# 3  10.255.23.2 (r3)
 # 4  10.10.30.101 (branch-client)
 ```
 
@@ -308,13 +346,9 @@ docker exec clab-hamk-verkonhallinta-golden-r1 ss -un
 
 ### 7. TCPDump - Liikenne-analyysi
 
-**Sieppaa ja analysoi verkkoliikennettä**
+**Sieppaa ja analysoi verkkoliikennettä** (esiasennettuna kaikissa nodeissa)
 
 ```bash
-# Asenna tcpdump
-docker exec clab-hamk-verkonhallinta-golden-client1 \
-  apt-get update && apt-get install -y tcpdump
-
 # Kaappaa kaikki liikenne eth1:ssä
 docker exec clab-hamk-verkonhallinta-golden-client1 \
   tcpdump -i eth1 -n
@@ -323,18 +357,27 @@ docker exec clab-hamk-verkonhallinta-golden-client1 \
 docker exec clab-hamk-verkonhallinta-golden-client1 \
   tcpdump -i eth1 icmp -n
 
+# TCP-portit 22 ja 80
+docker exec clab-hamk-verkonhallinta-golden-client1 \
+  tcpdump -i eth1 'tcp port 22 or tcp port 80' -n
+
 # Tallenna pcap-tiedostoon
 docker exec clab-hamk-verkonhallinta-golden-client1 \
   tcpdump -i eth1 -w /tmp/capture.pcap -c 100
 
 # Analysoi Wiresharkilla (kopioi ulos)
 docker cp clab-hamk-verkonhallinta-golden-client1:/tmp/capture.pcap ./
+
+# Lue ja filtteröi tallennetusta tiedostosta
+docker exec clab-hamk-verkonhallinta-golden-client1 \
+  tcpdump -r /tmp/capture.pcap -n icmp
 ```
 
 **Mitä opimme:**
 - Mitä liikennettä kulkee
 - Protokollat ja portit
 - Mahdolliset ongelmat (retransmit, timeout)
+- Paketit voidaan tallentaa ja analysoida myöhemmin Wiresharkilla
 
 ---
 
