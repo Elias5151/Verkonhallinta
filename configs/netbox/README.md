@@ -20,6 +20,7 @@ cp configs/netbox/.env.example configs/netbox/.env
 
 - `POSTGRES_PASSWORD`
 - `NETBOX_SECRET_KEY` (vahintaan 50 merkkia)
+- `API_TOKEN_PEPPER_1` (vahintaan 50 merkkia)
 - `NETBOX_SUPERUSER_PASSWORD`
 
 3. Kaynnista labra normaalisti:
@@ -54,6 +55,7 @@ bash scripts/netbox-seed.sh
 
 Tama ajaa idempotentin upsert-seedin (ei tuplaa objekteja).
 Seed luo laitteet, rajapinnat, IP-osoitteet, prefixit seka kaapeloinnit.
+Ennen seedia skripti ajaa NetBox-healthcheckin ja tulostaa selkeasti `OK` tai `FAIL`.
 
 Jos haluat nollata aiemmin seedatut objektit ja luoda ne uudelleen:
 
@@ -97,3 +99,6 @@ NetBox-lokit:
 ```bash
 docker compose -f configs/netbox/docker-compose.yml --env-file configs/netbox/.env logs -f
 ```
+
+Huomio: `scripts/netbox-seed.sh` suodattaa tunnetut NetBoxin deprecation-varoitukset,
+jotta ulostuloon jaa vain oikeat virheet.

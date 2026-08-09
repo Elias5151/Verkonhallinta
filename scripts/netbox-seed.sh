@@ -56,16 +56,24 @@ for _ in $(seq 1 180); do
 done
 
 if [[ "$curl_status" != "200" ]]; then
-  echo "[ERROR] NetBox ei ole valmis (HTTP ${curl_status})"
+  echo "[FAIL] NetBox healthcheck: FAIL (HTTP ${curl_status} /login/)"
   echo "[INFO] Tarkista lokit: docker compose -f configs/netbox/docker-compose.yml --env-file configs/netbox/.env logs -f"
   exit 1
 fi
 
+echo "[OK] NetBox healthcheck: OK (HTTP 200 /login/)"
+
 echo "[INFO] Ajetaan seed (${MODE})"
 if [[ "$MODE" == "reset" ]]; then
-  docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" exec -T -e NB_SEED_RESET=1 netbox python /opt/netbox/netbox/manage.py shell < "$SEED_FILE"
+  docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" exec -T \
+    -e NB_SEED_RESET=1 \
+    -e PYTHONWARNINGS='ignore:API_TOKEN_PEPPERS is not defined:UserWarning,ignore:LOGIN_REQUIRED is deprecated:FutureWarning' \
+    netbox python /opt/netbox/netbox/manage.py shell < "$SEED_FILE"
 else
-  docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" exec -T -e NB_SEED_RESET=0 netbox python /opt/netbox/netbox/manage.py shell < "$SEED_FILE"
+  docker compose -f "$COMPOSE_FILE" --env-file "$ENV_FILE" exec -T \
+    -e NB_SEED_RESET=0 \
+    -e PYTHONWARNINGS='ignore:API_TOKEN_PEPPERS is not defined:UserWarning,ignore:LOGIN_REQUIRED is deprecated:FutureWarning' \
+    netbox python /opt/netbox/netbox/manage.py shell < "$SEED_FILE"
 fi
 
 echo "[OK] NetBox seed valmis"
