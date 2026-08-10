@@ -15,7 +15,14 @@ echo "[INFO] Suljetaan ympäristö..."
 
 if [ -f "$NETBOX_COMPOSE_FILE" ] && [ -f "$NETBOX_ENV_FILE" ]; then
 	echo "[INFO] Suljetaan NetBox-pino..."
-	docker compose -f "$NETBOX_COMPOSE_FILE" --env-file "$NETBOX_ENV_FILE" down
+	# Prefer the newer `docker compose` subcommand if available, otherwise fall back to `docker-compose`.
+	if docker compose version >/dev/null 2>&1; then
+		docker compose -f "$NETBOX_COMPOSE_FILE" --env-file "$NETBOX_ENV_FILE" down
+	elif command -v docker-compose >/dev/null 2>&1; then
+		docker-compose -f "$NETBOX_COMPOSE_FILE" --env-file "$NETBOX_ENV_FILE" down
+	else
+		echo "[WARN] docker compose or docker-compose not available; skipping NetBox shutdown" >&2
+	fi
 fi
 
 sudo containerlab destroy -t "$TOPOLOGY_FILE" 
