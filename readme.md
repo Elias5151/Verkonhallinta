@@ -86,7 +86,7 @@ Suositeltu:
 
 Pakolliset ohjelmistot:
 
-- Docker Desktop
+- Docker Desktop tai Docker Engine ce asennettuna wsl ympäristöön
 - Git
 - Visual Studio Code
 
@@ -135,6 +135,8 @@ docker version
 
 ## 3. Asenna Containerlab
 
+huomaa, tämä asentaa docker engine CEn koneelle, jollei koneelta löydy docker binääriä
+
 ```bash
 curl -sL https://containerlab.dev/setup | sudo -E bash -s "all"
 ```
@@ -154,7 +156,7 @@ git clone <kurssin_git_repository>
 ```
 
 ```bash
-cd hamk-verkonhallinta-golden
+cd Verkonhallinta
 ```
 
 ---
