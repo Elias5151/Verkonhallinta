@@ -25,7 +25,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS}"
+        "uid": "${PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
