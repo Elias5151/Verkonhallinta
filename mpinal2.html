@@ -1,0 +1,207 @@
+<h2>Verkon valvonta ja SNMP</h2>
+
+<p>Verkon valvonta on osa verkon ylläpitoa. Tietoverkko toimii usein organisaation kriittisenä infrastruktuurina, joten sen toiminta on seurattava säännöllisesti. Verkossa on usein useita laitteita, palveluita ja protokollia, joten ongelman tunnistaminen ilman valvontaa voi olla hidasta ja virhealtista.</p>
+
+<h3>Miksi verkkoa valvotaan?</h3>
+<p>Verkon valvonnan tavoitteena on varmistaa palveluiden jatkuva toiminta. Valvonta auttaa:</p>
+<ul>
+  <li>varmistamaan palveluiden käytettävyyden</li>
+  <li>havaitsemaan häiriöt mahdollisimman nopeasti</li>
+  <li>tunnistamaan suorituskykyongelmat ennen kuin ne vaikuttavat käyttäjiin</li>
+  <li>keräämään dataa kapasiteetin suunnittelua varten</li>
+  <li>helpottamaan vianmääritystä</li>
+  <li>tukemaan verkon kehittämistä pitkällä aikavälillä</li>
+</ul>
+<p>Ilman jatkuvaa valvontaa verkon ylläpito perustuu pitkälti käyttäjien ilmoituksiin ja arvaamiseen. Tämä hidastaa reagointia ja kasvattaa käyttökatkosten vaikutuksia.</p>
+
+<h3>Verkon ylläpidon haasteet</h3>
+<p>Nykyaikainen tietoverkko koostuu tyypillisesti useista eri teknologioista ja järjestelmistä. Yksinkertaisessakin ympäristössä voi olla:</p>
+<ul>
+  <li>reitittimiä</li>
+  <li>kytkimiä</li>
+  <li>langattomia tukiasemia</li>
+  <li>palvelimia</li>
+  <li>virtualisointialustoja</li>
+  <li>pilvipalveluita</li>
+  <li>tietoturvalaitteita</li>
+  <li>internet-yhteyksiä</li>
+</ul>
+<p>Jokainen näistä voi muodostaa häiriötilanteen lähteen. Esimerkiksi käyttäjän näkökulmasta ongelma voi näyttäytyä yksinkertaisesti seuraavasti: “Verkko ei toimi.” Todellisuudessa taustalla voi olla kymmeniä erilaisia syitä.</p>
+
+<h4>Yleisiä ongelmien syitä</h4>
+<ul>
+  <li>laitteistoviat</li>
+  <li>konfiguraatiovirheet</li>
+  <li>kapasiteettiongelmat</li>
+  <li>ohjelmistovirheet</li>
+  <li>ulkoiset häiriöt tai operaattorin ongelmat</li>
+</ul>
+
+<h4>Laitteistoviat</h4>
+<p>Laitteiden komponentit kuluvat ajan myötä. Esimerkiksi:</p>
+<ul>
+  <li>verkkokortti voi rikkoutua</li>
+  <li>virtalähde voi vioittua</li>
+  <li>levyjärjestelmä voi epäonnistua</li>
+  <li>kuitumoduuli voi lakata toimimasta</li>
+</ul>
+
+<h4>Konfiguraatiovirheet</h4>
+<p>Yksi yleisimmistä häiriöiden aiheuttajista on ihmisen tekemä virhe. Esimerkiksi:</p>
+<ul>
+  <li>väärä IP-osoite</li>
+  <li>väärä VLAN-konfiguraatio</li>
+  <li>puuttuva reitti</li>
+  <li>virheellinen palomuurisääntö</li>
+  <li>väärä DNS-määritys</li>
+</ul>
+<p>Pienikin muutos voi aiheuttaa laajoja vaikutuksia koko verkkoon.</p>
+
+<h4>Kapasiteettiongelmat</h4>
+<p>Alun perin riittävä verkko voi muuttua hitaaksi, kun kuormitus kasvaa. Esimerkiksi:</p>
+<ul>
+  <li>käyttäjämäärä kasvaa</li>
+  <li>palveluita lisätään</li>
+  <li>varmuuskopiointi käyttää enemmän kaistaa</li>
+  <li>videoliikenne lisääntyy</li>
+</ul>
+<p>Tällöin palvelu ei välttämättä lakkaa toimimasta kokonaan, mutta sen suorituskyky heikkenee merkittävästi.</p>
+
+<h4>Ohjelmistovirheet</h4>
+<p>Verkkolaitteiden käyttöjärjestelmät sisältävät ohjelmistovirheitä samalla tavalla kuin muutkin ohjelmistot. Virheet voivat aiheuttaa:</p>
+<ul>
+  <li>yhteyksien katkeamista</li>
+  <li>virheellisiä reititystietoja</li>
+  <li>palveluiden kaatumista</li>
+  <li>viiveitä ja virheellisiä vastauksia</li>
+</ul>
+
+<h3>SNMP (Simple Network Management Protocol)</h3>
+<p>SNMP on verkonhallintaan kehitetty protokolla, jolla voidaan kerätä tietoa verkkolaitteiden tilasta ja hallita niitä etäkäytöllä. SNMP on yksi perusprotokollista verkon valvonnassa ja se on käytössä laajalti reitittimissä, kytkimissä, palvelimissa ja muissa verkon laitteissa.</p>
+
+<h4>SNMP:n perusidea</h4>
+<p>SNMP mahdollistaa seuraavat toiminnot:</p>
+<ul>
+  <li>laitteen tilan seurannan</li>
+  <li>tietojen lukemisen etänä</li>
+  <li>hälytysten ja poikkeamien tunnistamisen</li>
+  <li>laitteen konfiguraation ja parametrien hallinnan</li>
+</ul>
+<p>SNMP:n avulla verkko- tai järjestelmäadministraattori voi nähdä esimerkiksi, onko laite käynnissä, mitä käyttöä sen portit ovat, mikä on CPU-kuormitus, RAM-käyttö tai linkkien tila.</p>
+
+<h4>SNMP:n pääkomponentit</h4>
+<p>SNMP muodostuu yleensä kahdesta pääkomponentista:</p>
+<ul>
+  <li><strong>SNMP-agentti</strong>: laite tai palvelu, joka kerää tietoa ja vastaa kyselyihin</li>
+  <li><strong>SNMP-manageri</strong>: järjestelmä, joka lähettää kyselyitä ja vastaanottaa tietoa</li>
+</ul>
+<p>Agentti toimii verkon laitteessa, kuten kytkimessä, reitittimessä tai Linux-palvelimessa. Manageri puolestaan on valvontajärjestelmä, joka pyytää tietoa ja analysoi sitä.</p>
+
+<h4>SNMP-agentti</h4>
+<p>SNMP-agentti kerää laitetta koskevaa tilatietoa, kuten:</p>
+<ul>
+  <li>CPU-käyttö</li>
+  <li>muisti ja levytilan käyttö</li>
+  <li>verkkoliittymien tila</li>
+  <li>pakettihäviöt ja virheet</li>
+  <li>laitteen käyntitila</li>
+</ul>
+<p>Agentti pitää yllä tietoa MIB-rakenteessa ja vastaa managerin kyselyihin.</p>
+
+<h4>SNMP-manageri</h4>
+<p>Manageri on järjestelmä, joka tekee kyselyjä agentille. Yleisiä SNMP-managerin käyttötapoja ovat:</p>
+<ul>
+  <li>kyselyjen lähettäminen</li>
+  <li>mittareiden kerääminen</li>
+  <li>hälytysten vastaanottaminen</li>
+  <li>poikkeamien tunnistaminen</li>
+  <li>raportoinnin ja visualisoinnin tukeminen</li>
+</ul>
+<p>SNMP-työkalut voivat esimerkiksi näyttää käyttöasteita, porttitilaa ja tapahtumia reaaliajassa tai historialliseen dataan.</p>
+
+<h3>MIB ja OID</h3>
+<p>SNMP:n tiedon mallintamiseen käytetään MIB- ja OID-käsitteitä.</p>
+
+<h4>MIB</h4>
+<p>MIB (Management Information Base) on tietokanta, joka sisältää laitteiden hallittavat muuttujat. Se määrittelee, mitä tietoa laite tarjoaa SNMP:n kautta.</p>
+<p>MIB pitää sisällään eri attribuutteja, kuten esimerkiksi:</p>
+<ul>
+  <li>portin tila</li>
+  <li>pakettien määrä</li>
+  <li>virheiden määrä</li>
+  <li>käyttöaste</li>
+  <li>laitteen kokoelmatiedot</li>
+</ul>
+
+<h4>OID</h4>
+<p>OID (Object Identifier) on yksilöllinen tunniste, jonka avulla tiedot löydetään MIB:stä. Jokaisella SNMP-muuttujalla on oma OID-arvo.</p>
+<p>Esimerkiksi laite voi ilmoittaa porttinumeron, pakettien määrän tai virhecountin tietyn OID:n kautta. Näin SNMP-manageri tietää, mitä tietoa se pyytää ja mistä muuttujasta kyse on.</p>
+
+<h3>SNMP:n toimintaperiaate</h3>
+<p>SNMP toimii kysely-vastaus -periaatteella. Manageri lähettää kyselyn agentille, ja agentti vastaa pyydettyyn tietoon. Yleisiä operaatioita ovat:</p>
+<ul>
+  <li><strong>GET</strong>: hakee tietoa</li>
+  <li><strong>GETNEXT</strong>: hakee seuraavan objektin</li>
+  <li><strong>GETBULK</strong>: hakee suuria joukkotietoja tehokkaasti</li>
+  <li><strong>SET</strong>: muuttaa asetuksia tai arvoja</li>
+  <li><strong>TRAP</strong>: agentti ilmoittaa tapahtumasta ilman erillistä kyselyä</li>
+  <li><strong>INFORM</strong>: vasteellinen hälytin, joka vaatii vahvistuksen</li>
+</ul>
+<p>SNMP on erityisen hyödyllinen verkon tilan ja hälytysten seurannassa, koska se tarjoaa standardin mukaisen tavan kerätä tietoa useista laitteista.</p>
+
+<h3>SNMP:n käytännön sovellukset</h3>
+<p>SNMP:tä käytetään monissa verkonhallinnan tapauksissa, esimerkiksi:</p>
+<ul>
+  <li>kytkimien ja reitittimien toiminnan seuraamiseen</li>
+  <li>porttien käyttöasteen mittaamiseen</li>
+  <li>virheiden ja häiriöiden havaitsemiseen</li>
+  <li>palvelimien resurssien seuraamiseen</li>
+  <li>valvontajärjestelmien integraatioon</li>
+</ul>
+<p>Yleisiä SNMP:n hyödyntäjiä ovat työkaluja, kuten Zabbix, Prometheus, PRTG ja muut valvontajärjestelmät.</p>
+
+<h3>SNMP:n käytännön esimerkki</h3>
+<p>Oletetaan, että verkonhallinta seuraa kytkimen porttien kuormitusta. SNMP-manageri pyytää agentilta tietoa portin liikennemääristä ja virheistä. Jos portin käyttö kasvaa poikkeuksellisen korkeaksi tai virheiden määrä nousee, järjestelmä voi ilmoittaa mahdollisesta ongelmasta.</p>
+<p>Tällainen tieto auttaa:</p>
+<ul>
+  <li>tunnistamaan pullonkaulat</li>
+  <li>havaita porttipuolen ongelmat</li>
+  <li>arvioimaan verkon kapasiteetin riittävyyttä</li>
+  <li>suunnittelemaan muutoksia ja laajennuksia</li>
+</ul>
+
+<h3>SNMP:n rajoitukset ja turvallisuus</h3>
+<p>SNMP on hyödyllinen, mutta sen käyttöön liittyy myös haasteita. Vanhemmat SNMP-versiot voivat olla haavoittuvaisia, jos ne on konfiguroitu väärin.</p>
+<p>Keskeisiä huomioita ovat:</p>
+<ul>
+  <li>community-stringien turvallinen käyttö</li>
+  <li>SNMPv3:n käyttö, jos mahdollista</li>
+  <li>käyttöoikeuksien rajoittaminen</li>
+  <li>verkkojen segmentointi</li>
+  <li>valvontatietojen suojaus</li>
+</ul>
+<p>Modernissa verkonhallinnassa suositellaan käytettäväksi SNMPv3:ta, koska se tarjoaa autentikoinnin ja salaustuen paremmin kuin vanhemmat versiot.</p>
+
+<h3>SNMP ja verkon valvonta kurssin kontekstissa</h3>
+<p>Kurssilla SNMP on tärkeä osa verkon valvontaa, koska sen avulla voidaan esimerkiksi:</p>
+<ul>
+  <li>kerätä perustietoa laitteista</li>
+  <li>tehdä perusvalvontaa</li>
+  <li>tarkkailla porttien tilaa</li>
+  <li>opiskella verkkotietojen keräämistä ja analysointia</li>
+  <li>liittää valvontadata järjestelmiin, kuten Zabbixiin</li>
+</ul>
+<p>SNMP ei korvaa kaikkia valvontamenetelmiä, mutta se on keskeinen protokolla monissa verkkoympäristöissä ja hyvä perusta verkonhallinnan ymmärtämiselle.</p>
+
+<h3>Yhteenveto</h3>
+<p>Verkkoa valvotaan, jotta voidaan ennaltaehkäistä häiriöitä, nopeuttaa vianetsintää ja ymmärtää verkon suorituskykyä. SNMP on yksi keskeisimmistä standardeista verkon tilan keräämiseen ja valvontaan. Se perustuu agentti-managerimalliin, jossa agentti tarjoaa tietoa MIB:n ja OID:en kautta, ja manageri käsittelee tiedon.</p>
+<p>Hyvä verkonvalvonta yhdistää tiedonkeruun, analysoinnin ja dokumentoinnin siten, että mahdolliset ongelmat voidaan havaita nopeasti ja korjata tehokkaasti.</p>
+
+<h3>Lähteet</h3>
+<ol>
+  <li>SNMPv3 Overview and Security. <a href="https://www.rfc-editor.org/rfc/rfc3410" target="_blank" rel="noopener">RFC 3410</a></li>
+  <li>Simple Network Management Protocol (SNMP). <a href="https://www.cisco.com/c/en/us/solutions/enterprise-networks/snmp.html" target="_blank" rel="noopener">Cisco SNMP resources</a></li>
+  <li>Understanding SNMP. <a href="https://learningnetwork.cisco.com/s/article/Understanding-Simple-Network-Management-Protocol--SNMP" target="_blank" rel="noopener">Cisco Learning Network</a></li>
+  <li>Net-SNMP documentation. <a href="https://net-snmp.sourceforge.io/docs.html" target="_blank" rel="noopener">https://net-snmp.sourceforge.io/docs.html</a></li>
+  <li>ITU-T and network management references for monitoring and fault management.</li>
+</ol>

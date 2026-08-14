@@ -18,11 +18,13 @@ topology:
       binds:
         - ../configs/frr/r1/daemons:/etc/frr/daemons
         - ../configs/frr/r1/frr.conf:/etc/frr/frr.conf
+        - ../configs/snmp/r1-snmpd.conf:/etc/snmp/snmpd.conf
         - ../scripts/router-bootstrap.sh:/usr/local/bin/router-bootstrap.sh
       exec:
         - chmod +x /usr/local/bin/router-bootstrap.sh
         - /usr/local/bin/router-bootstrap.sh r1 10.10.10.0/24 "eth2 eth3" 172.20.20.1
-        - /bin/bash -lc 'apt-get update && apt-get install -y rsync >/dev/null 2>&1 || true'
+        - /bin/bash -lc 'apt-get update && apt-get install -y rsync snmp snmpd>/dev/null 2>&1 || true'
+        - bash -lc 'service snmpd restart || snmpd -f -Lo -C -c /etc/snmp/snmpd.conf &'
 
     r2:
       kind: linux
@@ -30,6 +32,7 @@ topology:
       binds:
         - ../configs/frr/r2/daemons:/etc/frr/daemons
         - ../configs/frr/r2/frr.conf:/etc/frr/frr.conf
+        - ../configs/snmp/snmpd.conf:/etc/snmp/snmpd.conf
         - ../scripts/router-bootstrap.sh:/usr/local/bin/router-bootstrap.sh
       exec:
         - chmod +x /usr/local/bin/router-bootstrap.sh

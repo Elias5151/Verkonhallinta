@@ -239,10 +239,8 @@ Sisällytä:
 
 Pohdi:
 
-- mitä opit tehtävän aikana
-- mikä oli vaikeinta
-- miksi verkkodokumentaatio on tärkeää
-
+- Mitkä asiat verkon dokumentaation muodostamisessa kuluttivat eniten aikaa ja miksi?
+- Miten dokumentaatio mielestäsi auttaa palvelusta vastaavaa it-asiantuntijaa työssään?
 ---
 
 # Palautus

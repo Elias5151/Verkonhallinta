@@ -1,0 +1,281 @@
+<style>
+  a {
+    text-decoration: none;
+    color: #464feb;
+  }
+
+  tr th, tr td {
+    border: 1px solid #e6e6e6;
+  }
+
+  tr th {
+    background-color: #f5f5f5;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #1f2933;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+  }
+
+  th, td {
+    padding: 0.6em 0.8em;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  h1, h2, h3, h4, h5 {
+    color: #1d3557;
+  }
+
+  code, pre {
+    background: #f5f7fa;
+    border-radius: 4px;
+  }
+
+  pre {
+    padding: 1em;
+    overflow-x: auto;
+  }
+</style>
+
+<h4><strong>Verkon dokumentaatio</strong></h4>
+<p>Dokumentaatio on olennainen osa verkon ylläpitoa. Ilman ajantasaista ja hyödyllistä dokumentaatiota verkon hallinta muuttuu nopeasti vaikeaksi: vianetsintä hidastuu, muutosten vaikutukset jäävät epäselviksi ja ympäristön ymmärtäminen riippuu yksittäisten henkilöiden muistista.</p>
+<p>Verkon dokumentoinnin peruskohteita ovat:</p>
+<ul>
+  <li>fyysinen topologia</li>
+  <li>looginen topologia</li>
+  <li>laitetiedot ja sijaintitiedot</li>
+  <li>konfiguraatiotiedot</li>
+  <li>baseline ja suorituskykydata</li>
+  <li>muutoshistoria ja ylläpitotiedot</li>
+</ul>
+<p>Hyvä dokumentaatio toimii yhtenä verkon ylläpidon tukipilarina: se auttaa suunnittelussa, vianetsinnässä, muutoksissa ja turvallisuustyössä.</p>
+
+<h4>Fyysinen ja looginen dokumentointi</h4>
+<p>Verkko voidaan kuvata kahdella eri tasolla:</p>
+<ul>
+  <li><strong>Fyysinen dokumentointi</strong>: kertoo, missä laitteet sijaitsevat ja miten ne on kytketty toisiinsa fyysisesti.</li>
+  <li><strong>Looginen dokumentointi</strong>: kuvaa verkon rakennetta ja toimintoja, esimerkiksi VLANit, reititys, IP-verkot, segmentit ja järjestelmärajapinnat.</li>
+</ul>
+<p>Esimerkiksi fyysinen dokumentaatio voi sisältää tietokonehuoneen, kaapeloinnin ja porttikytkennät, kun taas looginen dokumentaatio kuvaa, miten verkko toimii eri palvelujen ja segmenttien välillä.</p>
+<p>Verkon topologiaa kuvataan usein diagrammeina tai kaavioina. Tyypillisiä työkaluja ovat esimerkiksi <a href="https://app.diagrams.net" target="_blank" rel="noopener">diagrams.net</a>, <a href="https://www.solarwinds.com/network-topology-mapper" target="_blank" rel="noopener">SolarWinds Network Topology Mapper</a> ja erilaisten kuvailujen yhteydessä myös <a href="https://containerlab.dev/" target="_blank" rel="noopener">Containerlab</a>.</p>
+
+<h4>Laitetiedot ja informaatiolehtipohja</h4>
+<p>Dokumentaation on sisällettävä laitteen perustiedot, kuten:</p>
+<ul>
+  <li>laitteen nimi</li>
+  <li>tyyppi ja valmistaja</li>
+  <li>malli</li>
+  <li>IP-osoitteet</li>
+  <li>toimiala/verkko</li>
+  <li>käyttöpaikka ja fyysinen sijainti</li>
+  <li>ylläpitäjä tai vastuu</li>
+  <li>konfiguraatiotiedot</li>
+</ul>
+<p>Monet organisaatiot ylläpitävät laitteen tietoja inventaario- tai informaatiolehtinä. Tällainen tietokanta tai dokumentti helpottaa standardointia ja viitetietojen hallintaa.</p>
+
+<h4>Baseline-ajattelun perusteet</h4>
+<p><a href="https://www.manageengine.com/network-monitoring/network-baseline.html" target="_blank" rel="noopener">Verkon baseline-ajattelu</a> tarkoittaa verkon normaalin toimintatason kuvaamista. Baseline auttaa vastaamaan kysymyksiin:</p>
+<ol>
+  <li>Kuinka verkko toimii normaalisti?</li>
+  <li>Mitkä verkon osat toimivat kriittisesti?</li>
+  <li>Miksi verkko ruuhkautuu tai heikkenee tietyissä tilanteissa?</li>
+  <li>Mihin muutoksiin kannattaa keskittyä?</li>
+</ol>
+<p>Baseline voidaan rakentaa mittaamalla esimerkiksi:</p>
+<ul>
+  <li>liitäntien käyttöaste</li>
+  <li>suoritinkäyttö</li>
+  <li>pakettihäviöitä</li>
+  <li>latenssia ja virheprosentteja</li>
+</ul>
+<p>Baseline muodostaa vertailupohjan, jonka avulla voidaan tunnistaa poikkeamat ja arvioida muutosten vaikutuksia.</p>
+
+<hr>
+
+<h4>Moderni verkkodokumentaatio</h4>
+<p>Perinteisesti verkkodokumentaatio on koostunut verkkokaavioista, laiteluetteloista ja konfiguraatiotiedoista. Nykyaikaisessa verkonhallinnassa dokumentaatio nähdään kuitenkin osana infrastruktuuria. Dokumentaatio tallennetaan versionhallintaan, sitä päivitetään jatkuvasti ja sitä voidaan tuottaa osittain automaattisesti.</p>
+<p>Dokumentaation tavoitteena ei ole ainoastaan kuvata verkkoa, vaan mahdollistaa verkon tehokas ylläpito, kehittäminen, valvonta ja vianratkaisu.</p>
+
+<h4>1. Git ja versionhallinta</h4>
+<p><strong>Git</strong> on hajautettu versionhallintajärjestelmä, jonka avulla voidaan seurata tiedostojen muutoksia, palata aiempiin versioihin ja tehdä yhteistyötä useiden käyttäjien kanssa. Git on keskeinen työkalu myös dokumentaation hallinnassa.</p>
+<p>Git mahdollistaa:</p>
+<ul>
+  <li>kaikkien muutosten seurannan</li>
+  <li>edellisen version palauttamisen</li>
+  <li>muutoksen tekijän tunnistamisen</li>
+  <li>yhteisen dokumentaation ylläpitämisen usealta käyttäjältä</li>
+  <li>vertaisarvioinnin ja pull request -prosessin</li>
+</ul>
+<p>Verkkodokumentaation hallinta ilman versionhallintaa johtaa helposti vanhentuneisiin tiedostoihin, kaksoiskappaleisiin ja epäselviin muutoksiin.</p>
+
+<h4>2. Markdown</h4>
+<p><strong>Markdown</strong> on kevyt merkintäkieli, jolla dokumentaatiota voidaan kirjoittaa helposti luettavassa ja versionhallittavassa tekstimuodossa. Markdown sopii erinomaisesti esimerkiksi README-tiedostoihin, dokumentaatio- ja raportointisivustoihin sekä laite- ja ympäristödokumentaatioon.</p>
+<p>Markdownin etuja ovat:</p>
+<ul>
+  <li>helppo kirjoittaa</li>
+  <li>helppo lukea raakatekstinä</li>
+  <li>yhteensopiva GitHubin ja monien muiden työkalujen kanssa</li>
+  <li>hyvä yhdistelmä dokumentoinnin ja versionhallinnan kanssa</li>
+</ul>
+<p>Markdownilla voidaan tehdä esimerkiksi otsikoita, luetteloita, linkkejä, taulukoita ja koodilohkoja, jotka ovat erittäin hyödyllisiä teknisissä dokumenteissa.</p>
+
+<h4>3. GitHub dokumentaatioalustana</h4>
+<p><strong>GitHub</strong> toimii nykyään yleisesti dokumentaation julkaisu- ja hallintaympäristönä, erityisesti teknisessä kontekstissa. GitHub tarjoaa:</p>
+<ul>
+  <li>versionhallinnan</li>
+  <li>yhteisen repositorion</li>
+  <li>pull request -mekanismin</li>
+  <li>visuaalisen dokumentaation näkymän</li>
+  <li>tiedostojen ja linkkien hallinnan</li>
+</ul>
+<p>GitHubin kautta voidaan ylläpitää myös koko laboratorioympäristön dokumentaatiota, yhteisiä käytäntöjä, kuvauksia ja raportteja. Tämä tekee dokumentaatiosta helposti löydettävää, vertaisarvioitavaa ja ylläpidettävää.</p>
+
+<h4>4. Documentation as Code</h4>
+<p><strong>Documentation as Code</strong> tarkoittaa, että dokumentaatiota käsitellään kuten ohjelmistokoodia. Dokumentaatio:</p>
+<ul>
+  <li>tallennetaan Git-versionhallintaan</li>
+  <li>kirjoitetaan tekstimuodossa, esimerkiksi Markdownilla</li>
+  <li>tarkastetaan muutokset ennen hyväksymistä</li>
+  <li>vaiheistetaan ja dokumentoidaan muutoshistoria</li>
+  <li>voidaan automatisoida osittain</li>
+</ul>
+<p>Tällainen lähestymistapa vähentää dokumentaation vanhentumista ja lisää yhteistä vastuuta tiedon ylläpidosta.</p>
+
+<h4>5. Single Source of Truth</h4>
+<p><strong>Single Source of Truth (SSoT)</strong> tarkoittaa, että jokaiselle tiedolle on vain yksi virallinen lähde. Tämä on keskeinen periaate modernissa verkonhallinnassa.</p>
+<p>Esimerkki ongelmasta:</p>
+<ul>
+  <li>Excel-taulukossa verkon IP-osoite on 10.0.0.1</li>
+  <li>verkkokaaviossa sama osoite on 10.0.0.10</li>
+  <li>laitteen konfiguraatiossa on taas toinen arvo</li>
+</ul>
+<p>Kun sama tieto on eri paikoissa, dokumentaatio menettää luotettavuutensa. SSoT auttaa:</p>
+<ul>
+  <li>vähentämään ristiriitaisia arvoja</li>
+  <li>helpottamaan automaatiota</li>
+  <li>ylläpitämään ajantasaista tietoa</li>
+  <li>vähentämään virhettä ja käsityön tarvetta</li>
+</ul>
+<p>Kurssin ympäristössä yksi virallinen lähde voi olla esimerkiksi Containerlab-topologiatiedosto, NetBoxin tietomalli tai yhteinen GitHub-repositorio.</p>
+
+<h4>6. Containerlab-topologian dokumentointi</h4>
+<p><strong>Containerlab</strong> on työkalu, jolla voidaan mallintaa ja simuloida verkkoja helposti konfiguroituvissa ja toistettavissa ympäristöissä. Topologia on erittäin hyödyllinen dokumentaation lähde, koska se kuvaa:</p>
+<ul>
+  <li>laitteiden nimet</li>
+  <li>linkkien rakenteen</li>
+  <li>verkkojen segmentit</li>
+  <li>käyttöympäristön rakennetta</li>
+  <li>yhteyksiä laitteiden välillä</li>
+</ul>
+<p>Containerlab-topologia on usein hyvä Single Source of Truth -lähde, koska siihen perustuvat myös konfigurointityökaluja, laboraatio-ympäristö ja dokumentaatio.</p>
+<p>Topologian dokumentoinnin hyödyt:</p>
+<ul>
+  <li>ympäristö voidaan rakentaa uudelleen</li>
+  <li>verkko näkyy selvästi sekventiaalisesti</li>
+  <li>muutokset voidaan tehdä yhdessä määrittelemällä topologia</li>
+  <li>ympäristö on helpompi ymmärtää uudelle henkilölle</li>
+</ul>
+
+<h4>7. NetBox</h4>
+<p><strong>NetBox</strong> on IP-verkkojen ja laitteiden tietomallin hallintaan suunniteltu työkalu. Se tarjoaa järjestetyn ja helposti käytettävän tavan dokumentoida verkon laitteita, IP-verkkoja, VLANeja, yhteyksiä ja hallintotietoja.</p>
+<p>NetBoxin käyttö dokumentaation osana auttaa:</p>
+<ul>
+  <li>ylläpitämään laitekanta ja IP-osoitevaraukset</li>
+  <li>kirjaamaan VLAN- ja verkkojen hierarkian</li>
+  <li>vähentämään manuaalista ylläpitoa</li>
+  <li>tarjoamaan yhtenäisen tietolähteen useille järjestelmille</li>
+</ul>
+<p>NetBoxin rooli verkon dokumentoinnissa on erityisen tärkeä modernissa automaation ja toimintamallin kehityksessä.</p>
+
+<h4>8. Mermaid-kaaviot</h4>
+<p><strong>Mermaid</strong> on tekstipohjainen kaaviokieli, jolla voidaan luoda helposti verkko-, sekvenssi-, vuokaavioita ja muita diagrammeja suoraan dokumentaatioon. Se sopii hyvin GitHub- ja Markdown-dokumentaatioon.</p>
+<p>Esimerkki Mermaid-kaaviosta:</p>
+<pre><code>graph TD
+    A[Client] --> B[Router]
+    B --> C[Switch]
+    C --> D[Server]
+    C --> E[Monitoring]
+</code></pre>
+<p>Mermaid helpottaa dokumentaation visualisointia ilman erillistä piirto-ohjelmaa. Tämä on erityisen hyödyllistä, kun dokumentaatiota halutaan ylläpitää versionhallinnassa ja GitHubissa.</p>
+
+<h4>9. Dokumentaation automatisointi</h4>
+<p>Dokumentaation automatisointi tarkoittaa, että tietoa tuotetaan osittain tai kokonaan ohjelmallisesti sen sijaan, että kaikki vaiheet tehdään manuaalisesti. Esimerkkejä automatisoinnista ovat:</p>
+<ul>
+  <li>laiteluetteloiden generointi</li>
+  <li>IP-osoitelistojen muodostus</li>
+  <li>topologian ja verkon kaavioiden luominen</li>
+  <li>monitorointi- ja raportointikohteiden generointi</li>
+  <li>verkon muutosten dokumentointi automatisoiduissa komentosarjoissa</li>
+</ul>
+<p>Automatisointi parantaa dokumentaation laatua, nopeuttaa ylläpitoa ja vähentää virheiden määrää. Tavoite on, että dokumentaation ja reaalimaailman tila vastaavat toisiaan mahdollisimman hyvin.</p>
+
+<h4>10. Dokumentaation laatukriteerit</h4>
+<p>Dokumentaation merkitys perustuu siihen, että se on käytännöllistä ja ajantasaista. Hyvän dokumentaation kriteerejä ovat:</p>
+
+<table>
+  <tr>
+    <th>Kriteeri</th>
+    <th>Selitys</th>
+  </tr>
+  <tr>
+    <td>Ajantasaisuus</td>
+    <td>Dokumentaation tulee kuvata nykyistä ympäristöä.</td>
+  </tr>
+  <tr>
+    <td>Löydettävyys</td>
+    <td>Dokumentaation tulee sijaita tunnetussa ja helposti löydettävässä paikassa.</td>
+  </tr>
+  <tr>
+    <td>Yksiselitteisyys</td>
+    <td>Dokumentaation tulee olla selkeää ja niin tarkkaa, että se ei jätä epäselvyyksiä.</td>
+  </tr>
+  <tr>
+    <td>Toistettavuus</td>
+    <td>Dokumentaation avulla ympäristö tulee pystyä rakentamaan uudelleen.</td>
+  </tr>
+  <tr>
+    <td>Riittävä tarkkuus</td>
+    <td>Dokumentaation tulee olla tarpeeksi yksityiskohtainen mutta ei ylikompleksi.</td>
+  </tr>
+  <tr>
+    <td>Versionhallinta</td>
+    <td>Kaikista muutoksista tulee jäädä jälki, jotta voidaan palata aiempiin versioihin.</td>
+  </tr>
+</table>
+
+<p>Dokumentaation laatua voidaan parantaa myös noudattamalla yhteistä dokumentointistandardia, kuvaamalla tietolähteet ja dokumentoimalla ympäristön muutokset säännöllisesti.</p>
+
+<h4>Dokumentointi osana verkonhallintaa</h4>
+<p>Modernissa verkonhallinnassa dokumentaatio ei ole pelkkä lopputyö tai projektiraportti, vaan jatkuvasti ylläpidettävä osa infrastruktuuria. Hyvin toteutettu dokumentaatio:</p>
+<ul>
+  <li>nopeuttaa vianetsintää</li>
+  <li>helpottaa muutosten hallintaa</li>
+  <li>parantaa infrastruktuurin ymmärrettävyyttä</li>
+  <li>vähentää henkilösidonnaista tietoa</li>
+  <li>helpottaa automaation ja valvonnan integrointia</li>
+</ul>
+<p>Kurssin ympäristössä tämä tarkoittaa, että dokumentaatio tuotetaan yhtenäisessä GitHub-pohjaisessa työskentelymallissa, jossa perustana ovat Containerlab-topologia, NetBoxin tietomalli ja versionhallinnassa ylläpidettävä kirjallinen dokumentaatio.</p>
+
+<h4>Yhteenveto</h4>
+<p>Verkon dokumentaatio ei rajoitu ainoastaan fyysisten piirrosten ja laitetietojen kirjoittamiseen. Moderni verkkodokumentaatio kattaa myös versionhallinnan, dokumentoinnin tekstimuodossa, GitHub-pohjaisen yhteistyön, Single Source of Truth -periaatteen, NetBoxin, Containerlab-topologian, Mermaid-kaaviot sekä dokumentaation automatisoinnin ja laadunvarmistuksen.</p>
+<p>Näiden periaatteiden avulla verkko voidaan pitää ymmärrettävänä, ylläpidettävänä ja automaation tukemana koko elinkaarensa ajan.</p>
+
+<h4>Lähteet</h4>
+<ol>
+  <li>Git documentation. <a href="https://git-scm.com/doc" target="_blank" rel="noopener">https://git-scm.com/doc</a></li>
+  <li>Markdown Guide. <a href="https://www.markdownguide.org/" target="_blank" rel="noopener">https://www.markdownguide.org/</a></li>
+  <li>GitHub Docs. <a href="https://docs.github.com/" target="_blank" rel="noopener">https://docs.github.com/</a></li>
+  <li>Containerlab documentation. <a href="https://containerlab.dev/" target="_blank" rel="noopener">https://containerlab.dev/</a></li>
+  <li>NetBox documentation. <a href="https://docs.netbox.dev/" target="_blank" rel="noopener">https://docs.netbox.dev/</a></li>
+  <li>Mermaid documentation. <a href="https://mermaid.js.org/" target="_blank" rel="noopener">https://mermaid.js.org/</a></li>
+  <li>HAMK Moodle: Baseline-ajattelun perusteet. <a href="https://learn.hamk.fi/mod/page/view.php?id=1069246" target="_blank" rel="noopener">https://learn.hamk.fi/mod/page/view.php?id=1069246</a></li>
+  <li>NetBox Labs: Network documentation and data model. <a href="https://netboxlabs.com/" target="_blank" rel="noopener">https://netboxlabs.com/</a></li>
+</ol>

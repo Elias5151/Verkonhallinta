@@ -15,3 +15,4 @@ bfdd=no
 fabricd=no
 vrrpd=no
 pathd=no
+vtysh_enable=yes
