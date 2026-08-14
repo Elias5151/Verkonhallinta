@@ -325,6 +325,13 @@ dd if=/dev/zero of=testfile.img bs=1M count=500
 ```bash
 yes > /dev/null
 ```
+Tämä tuottaa yhdelle cpu säikeellä lähes 100% kuorman. Tähän parempi, hallittavampi tapa voisi olla käyttää työkalua stress-ng:
+
+```bash
+sudo apt install stress-ng
+stress-ng --cpu 4 --timeout 60s
+```
+Tämä kuormittaa neljää CPU-ydintä 60 sekunnin ajan ja lopettaa itse automaattisesti. Se on usein parempi vaihtoehto laboratorio- ja monitorointitesteissä kuin yes > /dev/null.
 
 Tarkkaile dashboardin muutoksia.
 
