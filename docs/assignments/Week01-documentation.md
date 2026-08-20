@@ -311,6 +311,6 @@ traceroute
 ```bash
 containerlab inspect -t topology/golden.clab.yml
 ```
-Tutustu myös /docs/topology.md
+Tutustu myös [/docs/topology.md](https://github.com/tjarvenpaa/Verkonhallinta/blob/main/docs/topology.md)
 Näitä samoja työkaluja käytetään myöhemmillä viikoilla vianetsinnässä, valvonnassa ja verkonhallinnassa.
 ``
