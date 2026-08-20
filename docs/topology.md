@@ -1,6 +1,6 @@
 # Network Topology Discovery - HAMK Lab Guide
 
-Tämä opas kattaa kaikki tavat tutkia ja visualisoida labran verkkotopologiaa sekä geneerisillä verkkotyökaluilla että labran spesifisillä työkaluilla.
+Tämä opas kattaa kaikki tavanomaiset tavat tutkia ja visualisoida labran verkkotopologiaa sekä geneerisillä verkkotyökaluilla että labran spesifisillä työkaluilla.
 
 ---
 
