@@ -1,12 +1,12 @@
-# Ansible Inventory Documentation
+# Ansible Inventory Dokumentaatio
 
-## Overview
+## Yleiskatsaus
 
-Ansible inventory for the HAMK Network Management Lab containerlab topology. The inventory is organized into logical groups reflecting the network architecture.
+Ansible-inventaario HAMK:n verkonhallintalaboratorion containerlab-topologialle. Inventaario on jaoteltu loogisiin ryhmiin, jotka heijastavat verkkoarkkitehtuuria.
 
-## Inventory Structure
+## Inventoryn rakenne
 
-### Network Device Groups
+### Verkkolaiteryhmät
 
 #### `[routers]`
 FRR-based network routers:
