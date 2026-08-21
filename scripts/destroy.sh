@@ -3,7 +3,7 @@
 set -e
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-TOPOLOGY_FILE="${ROOT_DIR}/Topology/golden.clab.yml"
+TOPOLOGY_FILE="${ROOT_DIR}/topology/golden.clab.yml"
 STUDENT_ID="${STUDENT_ID:-student01}"
 NETBOX_COMPOSE_FILE="${ROOT_DIR}/configs/netbox/docker-compose.yml"
 NETBOX_ENV_FILE="${ROOT_DIR}/configs/netbox/.env"
