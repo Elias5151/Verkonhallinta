@@ -105,6 +105,7 @@ jotta ulostuloon jaa vain oikeat virheet.
 
 ## .env tiedoston ohjeellinen sisältö
 
+```bash
 NETBOX_VERSION=latest
 NETBOX_HOST_PORT=8000
 ALLOWED_HOSTS=*
@@ -119,3 +120,4 @@ API_TOKEN_PEPPER_1=change-me-to-a-long-random-string-at-least-50-characters-456
 NETBOX_SUPERUSER_NAME=admin
 NETBOX_SUPERUSER_EMAIL=admin@example.local
 NETBOX_SUPERUSER_PASSWORD=change-me-admin
+```
