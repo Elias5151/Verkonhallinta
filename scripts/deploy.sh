@@ -11,7 +11,7 @@ TOPOLOGY_FILE="topology/golden.clab.yml"
 NETBOX_DIR="configs/netbox"
 NETBOX_COMPOSE_FILE="${NETBOX_DIR}/docker-compose.yml"
 NETBOX_ENV_FILE="${NETBOX_DIR}/.env"
-NETBOX_ENV_TEMPLATE="${NETBOX_DIR}/.env.example"
+NETBOX_ENV_TEMPLATE="${NETBOX_DIR}/example.environment"
 
 echo ""
 echo "========================================="
