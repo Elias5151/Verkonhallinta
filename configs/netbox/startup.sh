@@ -17,12 +17,11 @@ password = os.environ.get('SUPERUSER_PASSWORD', '')
 if username and password:
     u, created = User.objects.get_or_create(
         username=username,
-        defaults={'email': email, 'is_superuser': True, 'is_staff': True}
+        defaults={'email': email, 'is_superuser': True}
     )
     u.set_password(password)
     u.email = email
     u.is_superuser = True
-    u.is_staff = True
     u.save()
     if created:
         print(f'[OK] Superuser \"{username}\" luotu onnistuneesti.')
