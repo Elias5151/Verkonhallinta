@@ -1,3 +1,6 @@
+Ympäristön tarkoituksena virtuaalisesti simuloida pientä yritysverkkoa ja harjoitella käyttämään verkonhalllinnan ja - valvonnan työkaluja.
+
+
 Tehtävä 1.1
 
     -r1 : toimii reitittimenä client1 ja attackerille sekä linkkinä r1-r2 välille.
@@ -13,6 +16,8 @@ Tehtävä 1.1
     -grafana : Käytetään datan visualisointiin, seurantaan ja analysointiin.
     -zabbix : käytetään valvomaan it-infrastruktuurin tilaa ja suorituskykyä.
 
+
+![Verkkokaavio](https://github.com/Elias5151/Verkonhallinta/blob/main/reports/week01/VerkkoKaavio.png)
 
 Tehtävä 1.3
 
@@ -37,7 +42,7 @@ Tehtävä 1.4
     - Yhteys loytyy muihin verkoihin, paitsi managamenet laniin.
     - Liikenne kulkee r1, r2 ja r3 läpi branch clientille.
 
-
+![Reitityksen tutkiminen](https://github.com/Elias5151/Verkonhallinta/blob/main/reports/week01/reitityksenTuktiminen.png)
 Yhteenveto
 
     - Reitityksen tutkiminen vei dokumentaatiossa eniten aikaa, koska kirjauduin eri verkkojen laitteille reitin tutkimista varten.
