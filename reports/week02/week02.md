@@ -1,3 +1,6 @@
+SNMP (simple network management protocol) on yksi yleisimmistä verkon tiedonkeruumenetelmistä. Sen avulla voidaan kerätä tietoa verkkolaitteista, palvelimista ja muista verkkoon liitetyistä järjestelmistä.
+SNMP agentti asennettiin palvelimelle, josta haluttiin kysellä tietoa. Toiselle palvelimelle jolta kyseltiin asennettiin SNMP työkalut.
+
 Tehtävä 2.3
 
     Ensimmäinen kysely: "snmpwalk -v2c -c public web1 .1.3.6.1.2.1.1".
