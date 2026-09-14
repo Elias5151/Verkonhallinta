@@ -93,17 +93,6 @@ Verkon tarkoitus on mahdollistaa Ansible-hallinta.
 
 # Topologian looginen rakenne
 
-```text
-Management Network              Router-to-Router          Data Network
-192.168.100.0/24                172.16.0.0/30             10.10.10.0/24
-
- Ansible (.10)                                             Workstation (.100)
-    |                                                            |
-   SW1                                                          SW2
-    |                                                            |
-   R1 (G0/0 .11) ---- G0/1 .1 === G0/1 .2 ---- R2 (G0/0 .1) -----+
-```
-
 ```mermaid
 flowchart LR
     subgraph MGMT["Management Network 192.168.100.0/24"]
