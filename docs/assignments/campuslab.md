@@ -14,16 +14,17 @@ Laboratorion tavoitteena on opetella:
 ```mermaid
 flowchart TD
     server["Ubuntu Server<br/>Ansible Control Node<br/>Git Repository<br/>192.168.100.10"]
-    switch["Cisco SW1<br/>Management Switch<br/>192.168.100.21"]
+    switch1["Cisco SW1<br/>Management Switch<br/>192.168.100.21"]
+    switch2["Cisco SW1<br/>Management Switch<br/>192.168.100.22"]
     r1["R1<br/>Cisco Router"]
     r2["R2<br/>Cisco Router"]
     workstation["Workstation<br/>Windows/Linux<br/>10.10.10.100"]
 
-    server --- switch
-    switch --- r1
-    switch --- r2
+    server --- switch1
+    switch1 --- r1
+    switch2--- r2
     r1 --- r2
-    r1 --- workstation
+    switch2 --- workstation
 ```
 
 ---
