@@ -15,15 +15,15 @@ Laboratorion tavoitteena on opetella:
 flowchart TD
     server["Ubuntu Server<br/>Ansible Control Node<br/>Git Repository<br/>192.168.100.10"]
     switch1["Cisco SW1<br/>Management Switch<br/>192.168.100.21"]
-    switch2["Cisco SW1<br/>Management Switch<br/>192.168.100.22"]
+    switch2["Cisco SW2<br/>Management Switch<br/>192.168.100.22"]
     r1["R1<br/>Cisco Router"]
     r2["R2<br/>Cisco Router"]
     workstation["Workstation<br/>Windows/Linux<br/>10.10.10.100"]
 
     server --- switch1
     switch1 --- r1
-    switch2--- r2
     r1 --- r2
+    r2 --- switch2
     switch2 --- workstation
 ```
 
@@ -44,6 +44,7 @@ flowchart TD
 - Cisco Router R1
 - Cisco Router R2
 - Cisco Switch SW1
+- Cisco Switch SW2
 
 ## Työasema
 
@@ -63,6 +64,7 @@ Verkon tarkoitus on mahdollistaa Ansible-hallinta.
 |---------|---------|
 | Ansible Server | 192.168.100.10/24 |
 | SW1 | 192.168.100.21/24 |
+| SW2 | 192.168.100.22/24 |
 | R1 | 192.168.100.11/24 |
 | R2 | 192.168.100.12/24 |
 | Gateway | Ei tarvita |
@@ -99,8 +101,12 @@ Management Network
     |
     |
    SW1
-  /   \
- R1   R2
+    |
+   R1
+    |
+   R2
+    |
+   SW2
 
 
 Data Network
@@ -113,7 +119,9 @@ Data Network
 172.16.0.0/30
       |
       R2
-
+      |
+      |
+10.10.10.0/24
 ```
 
 ---
@@ -181,9 +189,7 @@ interface vlan 1
 ```bash
 sudo apt update
 
-sudo apt install -y \
-    git \
-    python3-pip
+sudo apt install -y git python3-pip
 
 pip install ansible
 
@@ -232,8 +238,8 @@ all:
       vars:
         ansible_connection: network_cli
         ansible_network_os: cisco.ios.ios
-        ansible_user: admin
-        ansible_password: Salainen123
+        # ansible_user: admin
+        # ansible_password: Salainen123
 ```
 
 ---
