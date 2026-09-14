@@ -104,6 +104,31 @@ Management Network              Router-to-Router          Data Network
    R1 (G0/0 .11) ---- G0/1 .1 === G0/1 .2 ---- R2 (G0/0 .1) -----+
 ```
 
+```mermaid
+flowchart LR
+    subgraph MGMT["Management Network 192.168.100.0/24"]
+        ansible["Ansible Server<br/>192.168.100.10"]
+        sw1["SW1"]
+        ansible --- sw1
+    end
+
+    subgraph LINK["Router-to-Router 172.16.0.0/30"]
+        direction LR
+        r1if["R1 G0/1<br/>172.16.0.1"] --- r2if["R2 G0/1<br/>172.16.0.2"]
+    end
+
+    subgraph DATA["Data Network 10.10.10.0/24"]
+        sw2["SW2"]
+        ws["Workstation<br/>10.10.10.100"]
+        sw2 --- ws
+    end
+
+    sw1 --- r1["R1<br/>G0/0: 192.168.100.11"]
+    r1 --- r1if
+    r2if --- r2["R2<br/>G0/0: 10.10.10.1"]
+    r2 --- sw2
+```
+
 R1 on ainoa laite, joka on fyysisesti kiinni hallintaverkossa. R2 saavutetaan Ansiblesta reititetysti R1:n kautta osoitteessa 172.16.0.2, koska R1 reitittää oletusarvoisesti suoraan kytkettyjen verkkojensa (192.168.100.0/24 ja 172.16.0.0/30) välillä.
 
 ---
