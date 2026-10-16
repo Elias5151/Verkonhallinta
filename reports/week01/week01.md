@@ -1,7 +1,16 @@
+1. Johdanto
+---
 Ympäristön tarkoituksena virtuaalisesti simuloida pientä yritysverkkoa ja harjoitella käyttämään verkonhalllinnan ja - valvonnan työkaluja.
 
+---
+2. Verkkokaavio
+---
 
-Tehtävä 1.1
+![Verkkokaavio](https://github.com/Elias5151/Verkonhallinta/blob/main/reports/week01/VerkkoKaavio.png)
+
+---
+3. Laiteluettelo
+---
 
     -r1 : toimii reitittimenä client1 ja attackerille sekä linkkinä r1-r2 välille.
     -r2 : toimiii reittimenä srv-sillalle, linkkinä r2-r1 välillä, linkkinä r2-management-sillalle ja linkkinä r2-r3 välillä.
@@ -16,26 +25,28 @@ Tehtävä 1.1
     -grafana : Käytetään datan visualisointiin, seurantaan ja analysointiin.
     -zabbix : käytetään valvomaan it-infrastruktuurin tilaa ja suorituskykyä.
 
+---
 
-![Verkkokaavio](https://github.com/Elias5151/Verkonhallinta/blob/main/reports/week01/VerkkoKaavio.png)
+4. IP-suunnitelma
+--- 
 
-Tehtävä 1.3
+    Verkko	                Tarkoitus	                        Yhdyskäytävä
+    
+    10.10.10.0/24		käyttäjän ja hyökkääjän verkko          10.10.10.1
+    
+    10.10.20.0/24		verko web- ja tietokantapalvelimelle    10.10.20.1
+    
+    10.10.30.0/24		osaston verkko                          10.10.30.1
+    
+    10.10.99.0/24		verkko hallinointiin                    172.20.20.1
+    
+    10.255.12.0/30		verkko r1-r2 välillä                    10.255.12.1, 10.255.12.2
+    
+    10.255.23.0/30		verkko r2-r3 välillä                    10.255.23.1, 10.255.23.2
 
-
-Verkko	            Tarkoitus	                            Yhdyskäytävä
-
-10.10.10.0/24		käyttäjän ja hyökkääjän verkko          10.10.10.1
-
-10.10.20.0/24		verko web- ja tietokantapalvelimelle    10.10.20.1
-
-10.10.30.0/24		osaston verkko                          10.10.30.1
-
-10.10.99.0/24		verkko hallinointiin                    172.20.20.1
-
-10.255.12.0/30		verkko r1-r2 välillä                    10.255.12.1, 10.255.12.2
-
-10.255.23.0/30		verkko r2-r3 välillä                    10.255.23.1, 10.255.23.2
-
+---
+5. Reitityksen analyysi
+---
 
 Tehtävä 1.4
 
@@ -45,5 +56,10 @@ Tehtävä 1.4
 ![Reitityksen tutkiminen](https://github.com/Elias5151/Verkonhallinta/blob/main/reports/week01/reitityksenTuktiminen.png)
 Yhteenveto
 
-    - Reitityksen tutkiminen vei dokumentaatiossa eniten aikaa, koska kirjauduin eri verkkojen laitteille reitin tutkimista varten.
-    - Verkon dokumentaatio auttaa tietämään mitä laitteita verkossa on ja miten ne on kytketty.
+---
+6. Pohdinta
+---
+
+Reitityksen tutkiminen vei dokumentaatiossa eniten aikaa, koska kirjauduin eri verkkojen laitteille reitin tutkimista varten.
+
+Verkon dokumentaatio auttaa tietämään mitä laitteita verkossa on ja miten ne on kytketty.
