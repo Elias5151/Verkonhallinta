@@ -45,7 +45,9 @@ Ylläpitäjän kannattaa seurata seuraavia mittareita jatkuvasti:
   - (Levytila) Jäljellä oleva levytila sekä luku- ja kirjoitusnopeudet
   - (Verkko) Liikenteen määrä IN/OUT ja mahdolliset paketin hukkumiset
   - (Palvelut) Ovatko kriittiset prosessit käynnissä ja vastaavatko ne pyyntöihin
+
 Dashboardini tarjoaa tiedon CPU:n, RAM:in ja Levyn käyttöasteen prosentteina sekä verkon lähettämmän ja vastaanotetus datan määärän tavuina.
 Lisäisin dashboardiin ainakin packetloss graafin sekä levyn nopeudet.
 Monitorointi data auttaa vianetsinnässä paljon. Esim, jos jossain järjestelmässä ilmenisi hitautta, voitaisiin katsoa graafia jossa näkyisi, että CPU käyttöaste on > 90%.
+
 Harjoituksessa opin ottamaan Grafan käyttöön ja luomaan sinne visualisointeja Prometheuksen keräämstä datasta.
