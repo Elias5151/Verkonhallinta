@@ -1,6 +1,7 @@
 ---
 - name: Install and configure SNMP
-  hosts: ubuntu_hosts
+  hosts: web1, db1, branch-client
+
   become: true
 
   vars:
@@ -32,11 +33,15 @@
 
       notify: restart snmpd
 
-    - name: Enable SNMP service
-      service:
-        name: snmpd
-        enabled: yes
-        state: started
+    - name: Check for running SNMPD
+      command: pgrep snmpd
+      register: snmpd_status
+      failed_when: false
+      changed_when: false
+
+    - name: Start SNMPD
+      command: /usr/sbin/snmpd
+      when: snmpd_status.rc != 0
 
     - name: Verify SNMP process
       shell: pgrep snmpd
@@ -50,6 +55,5 @@
   handlers:
 
     - name: restart snmpd
-      service:
-        name: snmpd
-        state: restarted
+      shell: pkill snmpd ; /usr/sbin/snmmpd
+      ignore_errors: yes
